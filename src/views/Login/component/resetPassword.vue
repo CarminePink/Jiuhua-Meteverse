@@ -24,15 +24,14 @@
             </el-form-item>
         </div>
 
-        <!--
         <div class="auth-field code-field">
             <div class="field-label">验证码</div>
             <div class="verification-row">
-                <el-form-item prop="code" class="verification-item">
+                <el-form-item prop="verificationCode" class="verification-item">
                     <el-input
-                        maxlength="4"
-                        :placeholder="'6位数字'"
-                        v-model="state.ruleForm.code"
+                        maxlength="6"
+                        :placeholder="'请输入验证码'"
+                        v-model="state.ruleForm.verificationCode"
                         clearable
                         autocomplete="off"
                     >
@@ -53,8 +52,8 @@
                 </el-button>
             </div>
         </div>
-        -->
 
+        <!--
         <div class="auth-field code-field">
             <div class="field-label">身份证后六位</div>
             <el-form-item prop="securityAnswer">
@@ -73,6 +72,7 @@
                 </el-input>
             </el-form-item>
         </div>
+        -->
 
         <div class="divider"></div>
 
@@ -141,7 +141,7 @@
 import { useMessage } from '@/hooks/message'
 import { useI18n } from 'vue-i18n'
 import { rule } from '@/utils/validate'
-import { LoginTypeEnum, resetPassword } from '@/api/login'
+import { LoginTypeEnum, resetPassword, sendMobileCode } from '@/api/login'
 import { verifyPasswordStrength } from '@/utils/toolsValidate'
 
 type ValidateCallback = (error?: Error | string) => void
@@ -157,23 +157,23 @@ const state = reactive({
         newPassword: '',
         newpassword1: '',
         phone: '',
-        securityAnswer: ''
+        verificationCode: ''
     }
 })
 
-const validateIdCardLastSix = (_rule: unknown, value: string, callback: ValidateCallback) => {
-    if (!value) {
-        callback(new Error('请输入身份证后六位'))
-        return
-    }
-
-    if (!/^\d{6}$/.test(value)) {
-        callback(new Error('身份证后六位应为6位数字'))
-        return
-    }
-
-    callback()
-}
+// const validateIdCardLastSix = (_rule: unknown, value: string, callback: ValidateCallback) => {
+//     if (!value) {
+//         callback(new Error('请输入身份证后六位'))
+//         return
+//     }
+//
+//     if (!/^\d{6}$/.test(value)) {
+//         callback(new Error('身份证后六位应为6位数字'))
+//         return
+//     }
+//
+//     callback()
+// }
 
 const dataRules = reactive({
     phone: [
@@ -183,13 +183,20 @@ const dataRules = reactive({
             trigger: 'blur'
         }
     ],
-    securityAnswer: [
+    verificationCode: [
         {
             required: true,
             trigger: 'blur',
-            validator: validateIdCardLastSix
+            message: '请输入验证码'
         }
     ],
+    // securityAnswer: [
+    //     {
+    //         required: true,
+    //         trigger: 'blur',
+    //         validator: validateIdCardLastSix
+    //     }
+    // ],
     newPassword: [
         { required: true, message: '密码不能为空', trigger: 'blur' },
         {
@@ -249,7 +256,7 @@ const handleResetPassword = async () => {
         await resetPassword({
             username: state.ruleForm.phone,
             newPassword: state.ruleForm.newPassword,
-            securityAnswer: state.ruleForm.securityAnswer
+            verificationCode: state.ruleForm.verificationCode
         })
         useMessage().success(t('common.optSuccessText'))
         emit('afterSuccess')
@@ -260,39 +267,39 @@ const handleResetPassword = async () => {
     }
 }
 
-// const msg = reactive({
-//     msgText: '获取验证码',
-//     msgTime: 60,
-//     msgKey: false
-// })
+const msg = reactive({
+    msgText: '获取验证码',
+    msgTime: 60,
+    msgKey: false
+})
 
-// const handleSendCode = async () => {
-//     const valid = await dataFormRef.value.validateField('phone').catch(() => {})
-//     if (!valid) return
-//
-//     const response: any = await sendMobileCode(state.ruleForm.phone, 3)
-//     if (response.data) {
-//         useMessage().success('验证码发送成功')
-//         timeCacl()
-//     } else {
-//         useMessage().error(response.msg || '验证码发送失败')
-//     }
-// }
+const handleSendCode = async () => {
+    const valid = await dataFormRef.value.validateField('phone').catch(() => {})
+    if (!valid) return
 
-// const timeCacl = () => {
-//     msg.msgText = `${msg.msgTime}秒后重发`
-//     msg.msgKey = true
-//     const time = setInterval(() => {
-//         msg.msgTime--
-//         msg.msgText = `${msg.msgTime}秒后重发`
-//         if (msg.msgTime === 0) {
-//             msg.msgTime = 60
-//             msg.msgText = '获取验证码'
-//             msg.msgKey = false
-//             clearInterval(time)
-//         }
-//     }, 1000)
-// }
+    const response: any = await sendMobileCode(state.ruleForm.phone, 3)
+    if (response.data) {
+        useMessage().success('验证码发送成功')
+        timeCacl()
+    } else {
+        useMessage().error(response.msg || '验证码发送失败')
+    }
+}
+
+const timeCacl = () => {
+    msg.msgText = `${msg.msgTime}秒后重发`
+    msg.msgKey = true
+    const time = setInterval(() => {
+        msg.msgTime--
+        msg.msgText = `${msg.msgTime}秒后重发`
+        if (msg.msgTime === 0) {
+            msg.msgTime = 60
+            msg.msgText = '获取验证码'
+            msg.msgKey = false
+            clearInterval(time)
+        }
+    }, 1000)
+}
 </script>
 
 <style lang="scss" scoped>

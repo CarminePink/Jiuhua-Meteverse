@@ -79,10 +79,7 @@ export const loginBySocial = (state: string, code: string) => {
 }
 
 export const sendMobileCode = (mobile: any, type = 0) => {
-    let url = '/admin/mobile/' + mobile
-    if (type) {
-        url += '?type=' + type
-    }
+    const url = `/metaverseBiz/open/register/sendVerificationCode?phone=${mobile}`
     return request({
         url,
         method: 'get'

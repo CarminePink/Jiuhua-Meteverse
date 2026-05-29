@@ -29,12 +29,12 @@
         <div class="auth-field">
             <div class="field-label">验证码</div>
             <div class="verification-row">
-                <el-form-item prop="code" class="verification-item">
+                <el-form-item prop="verificationCode" class="verification-item">
                     <el-input
                         class="login-input"
-                        maxlength="4"
+                        maxlength="6"
                         :placeholder="'验证码'"
-                        v-model="loginForm.code"
+                        v-model="loginForm.verificationCode"
                         clearable
                         autocomplete="off"
                     >
@@ -93,12 +93,12 @@ const loading = ref(false)
 
 const loginForm = reactive({
     mobile: '',
-    code: ''
+    verificationCode: ''
 })
 
 const loginRules = reactive({
     mobile: [{ required: true, trigger: 'blur', validator: rule.validatePhone }],
-    code: [
+    verificationCode: [
         {
             required: true,
             trigger: 'blur',
