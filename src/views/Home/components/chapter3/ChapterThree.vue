@@ -34,12 +34,28 @@ const homeModeStore = useHomeModeStore()
 const immersiveStore = useImmersiveStore()
 
 const CHAPTER_ONE_COLLECT_COINS = 50
+let rewardDialogueTimer: number | null = null
+let blessingSequenceTimer: number | null = null
 
 const { addCustomGizmoLayer, clearCustomGizmoLayer } = useCustomLayer(chapter3TriggerPoints)
 
 const emit = defineEmits<{
     (e: 'end', chapter: number): void
 }>()
+
+const clearRewardDialogueTimer = () => {
+    if (rewardDialogueTimer !== null) {
+        window.clearTimeout(rewardDialogueTimer)
+        rewardDialogueTimer = null
+    }
+}
+
+const clearBlessingSequenceTimer = () => {
+    if (blessingSequenceTimer !== null) {
+        window.clearTimeout(blessingSequenceTimer)
+        blessingSequenceTimer = null
+    }
+}
 
 // 显示宝藏奖励
 const showChapterReward = async (payload: string) => {
@@ -68,9 +84,10 @@ const showChapterReward = async (payload: string) => {
         2000 // 最短展示2秒
     )
 
-    const timeoutId = setTimeout(() => {
+    clearRewardDialogueTimer()
+    rewardDialogueTimer = window.setTimeout(() => {
         dialogueStore.setDialogueList(dialogueTwo)
-        clearTimeout(timeoutId)
+        rewardDialogueTimer = null
     }, collectInfoDuration)
 }
 
@@ -85,12 +102,13 @@ const handleDialogueComplete = (type: string, blessing?: string) => {
         ueManager.dasCustomMessage.MessageFromWeb('SetKongMingDengText', blessing)
         ueManager.dasCustomMessage.MessageFromWeb('FreeKongMingDeng', '')
 
-        const timeoutId = setTimeout(() => {
+        clearBlessingSequenceTimer()
+        blessingSequenceTimer = window.setTimeout(() => {
             ueManager.dasCustomMessage.MessageFromWeb('SetKongMingDengVisible', false)
             immersiveStore.enterImmersiveMode()
             ueManager.dasLevelSequenceControl.setSequence('/Game/JHS_Video/BSG_KongMingDeng')
 
-            clearTimeout(timeoutId)
+            blessingSequenceTimer = null
         }, 5000) // 5秒后自动关闭孔明灯
     } else if (type === 'end') {
         emit('end', ChapterEnum.BaiSuiGong)
@@ -147,6 +165,8 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+    clearRewardDialogueTimer()
+    clearBlessingSequenceTimer()
     immersiveStore.resetImmersiveMode()
 
     if (ueManager) {

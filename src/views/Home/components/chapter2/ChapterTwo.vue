@@ -54,6 +54,14 @@ const emit = defineEmits<{
 }>()
 
 const CHAPTER_ONE_COLLECT_COINS = 50
+let rewardDialogueTimer: number | null = null
+
+const clearRewardDialogueTimer = () => {
+    if (rewardDialogueTimer !== null) {
+        window.clearTimeout(rewardDialogueTimer)
+        rewardDialogueTimer = null
+    }
+}
 
 // 显示宝藏奖励
 const showChapterReward = async (payload: string) => {
@@ -82,9 +90,10 @@ const showChapterReward = async (payload: string) => {
         2000 // 最短展示2秒
     )
 
-    const timeoutId = setTimeout(() => {
+    clearRewardDialogueTimer()
+    rewardDialogueTimer = window.setTimeout(() => {
         dialogueStore.setDialogueList(dialogueThree)
-        clearTimeout(timeoutId)
+        rewardDialogueTimer = null
     }, collectInfoDuration)
 }
 
@@ -179,6 +188,8 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+    clearRewardDialogueTimer()
+
     if (questionVisible.value || videoVisible.value) {
         ueManager?.dasElectron?.setMousePassThrough(false)
     }

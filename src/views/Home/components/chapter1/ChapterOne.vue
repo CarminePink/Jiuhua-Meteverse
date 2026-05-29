@@ -57,6 +57,14 @@ const emit = defineEmits<{
 }>()
 
 const CHAPTER_ONE_COLLECT_COINS = 50
+let missionPanelTimer: number | null = null
+
+const clearMissionPanelTimer = () => {
+    if (missionPanelTimer !== null) {
+        window.clearTimeout(missionPanelTimer)
+        missionPanelTimer = null
+    }
+}
 
 // 显示宝藏奖励
 const showChapterReward = async (payload: string) => {
@@ -143,9 +151,10 @@ const triggerPointUnListener = (_shapeID: string, shapeName: string) => {
     plotInfoStore.setShowPlotInfo(false)
 
     if (shapeName === 'Shape_化城寺石狮子') {
-        const timeoutId = setTimeout(() => {
+        clearMissionPanelTimer()
+        missionPanelTimer = window.setTimeout(() => {
             missionStore.setShowMission(true) // 离开触发点后显示任务面板
-            clearTimeout(timeoutId)
+            missionPanelTimer = null
         }, 2000)
     }
 }
@@ -201,6 +210,8 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+    clearMissionPanelTimer()
+
     if (releaseVisible.value) {
         ueManager?.dasElectron?.setMousePassThrough(false)
     }
