@@ -35,6 +35,7 @@
 
 <script setup lang="ts">
 import { useMapStore } from '@/stores/map'
+import { Local } from '@/utils/storage'
 
 const OperatingHelp = defineAsyncComponent(() => import('./OperatingHelp.vue'))
 const Standings = defineAsyncComponent(() => import('./Standings.vue'))
@@ -50,6 +51,7 @@ const showStandings = ref(false)
 const showDailyRewards = ref(false)
 const showPointsRedemption = ref(false)
 const showMyBag = ref(false)
+const OPERATING_HELP_SEEN_KEY = 'operation-help-seen'
 
 const btnList = ref([
     {
@@ -132,6 +134,14 @@ const handleBtnClick = (index: number) => {
         showMyBag.value = true
     }
 }
+
+onMounted(() => {
+    if (Local.get(OPERATING_HELP_SEEN_KEY)) return
+
+    showHelp.value = true
+    activeIndex.value = 0
+    Local.set(OPERATING_HELP_SEEN_KEY, true)
+})
 
 watch(
     [showHelp, showStandings, showDailyRewards, showPointsRedemption, showMyBag],
