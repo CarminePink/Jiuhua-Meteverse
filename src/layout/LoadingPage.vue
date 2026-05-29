@@ -20,6 +20,7 @@
         <div class="intro-scene" v-else-if="phase === 'intro'">
             <img class="bg" src="@/assets/images/layout/bg_2.png" />
             <img class="cloud cloud-top-right" src="@/assets/images/layout/cloud_3.png" />
+            <button class="skip-button" type="button" @click="skipIntro">跳过</button>
             <div class="intro-content">
                 <h2 class="intro-title">欢 迎 词</h2>
                 <div class="intro-text-wrapper">
@@ -53,6 +54,7 @@ const progress = ref(0)
 let ueManager: any = null
 let ueReady = false
 let mockTimer: ReturnType<typeof setInterval> | null = null
+let hasExitedIntro = false
 
 // 是否已选择角色性别（如果已选择过，直接进入地图；如果未选择过，进入角色选择页）
 const hasSelectedCharacterGender = computed(() => {
@@ -99,7 +101,15 @@ function onLoadingComplete() {
     })
 }
 
+function skipIntro() {
+    audioRef.value?.pause()
+    if (audioRef.value) audioRef.value.currentTime = 0
+    onAudioEnded()
+}
+
 function onAudioEnded() {
+    if (hasExitedIntro) return
+    hasExitedIntro = true
     isActive.value = false
     logoStore.setShowLogo(true)
     const retainedQuery = resolveRetainedQueryFromRoute(route)
@@ -226,6 +236,21 @@ onUnmounted(() => {
     position: relative;
     width: 100%;
     height: 100%;
+
+    .skip-button {
+        position: absolute;
+        top: 28px;
+        right: 28px;
+        z-index: 3;
+        padding: 5px 20px;
+        border-radius: 10px;
+        background: rgba(26, 21, 13, 0.7);
+        color: #fff;
+        font-family: 'Source Han Serif CN';
+        font-size: 28px;
+        font-weight: 700;
+        cursor: pointer;
+    }
 
     .cloud-top-right {
         top: 0;
