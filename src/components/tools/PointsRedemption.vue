@@ -202,8 +202,9 @@ onMounted(() => {
     onViewerReady(() => {
         ueManager = dasUE
     })
-    initSkinList()
 })
+
+watch(visible, isVisible => isVisible && initSkinList())
 </script>
 
 <style lang="scss" scoped>
