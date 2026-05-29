@@ -1,0 +1,94 @@
+// 重置样式
+@use './reset.scss';
+@use './login' as *;
+@use './transition' as *;
+
+@font-face {
+    font-family: 'YouSheBiaoTiHei';
+    src: url('@/assets/fonts/YouSheBiaoTiHei-regular.ttf');
+}
+
+@font-face {
+    font-family: 'Source Han Serif CN';
+    src: url('@/assets/fonts/SourceHanSerifCN-Regular.otf');
+}
+
+@font-face {
+    font-family: 'YuWeiXingShu';
+    src: url('@/assets/fonts/YuWeiXingShu.ttf');
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Source Han Serif CN';
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    img {
+        -webkit-user-drag: none;
+        -moz-user-drag: none;
+        -ms-user-drag: none;
+        user-drag: none;
+    }
+}
+
+#app {
+    height: 100%;
+}
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(163, 163, 163, 0.5);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(163, 163, 163, 1);
+}
+
+/* 公共浮窗渐变色边框样式 */
+.common-modal-border {
+    &::before {
+        position: absolute;
+        content: '';
+        inset: 0;
+        border-radius: 8px;
+        padding: 2px;
+        background: linear-gradient(150deg, #e1bb82 0%, rgba(225, 187, 130, 0) 100%);
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        z-index: -1;
+    }
+}
+
+.common-gradient-text {
+    background: linear-gradient(
+        90deg,
+        #d8d4a3 8.48%,
+        #fbf7c3 25.45%,
+        #e7d9a2 46.06%,
+        #ccb38e 81.21%,
+        #af9a6a 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.el-image-viewer__wrapper {
+    z-index: 3500 !important;
+}

@@ -1,0 +1,82 @@
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+
+interface MessageImplements {
+    info(title: string): void
+    warning(title: string): void
+    success(title: string): void
+    error(title: string): void
+}
+
+export function useMessage() {
+    class MessageClass implements MessageImplements {
+        // 普通提示
+        info(title: string): void {
+            ElMessage.info(title)
+        }
+
+        // 警告提示
+        warning(title: string): void {
+            ElMessage.warning(title)
+        }
+
+        // 成功提示
+        success(title: string): void {
+            ElMessage.success(title)
+        }
+
+        // 错误提示
+        error(title: string): void {
+            ElMessage.error(title)
+        }
+    }
+
+    return new MessageClass()
+}
+
+export function useMessageBox() {
+    const { t } = useI18n()
+
+    class MessageBoxClass implements MessageImplements {
+        // 普通提示
+        info(msg: string): void {
+            ElMessageBox.alert(msg, t('message.box.title'))
+        }
+
+        // 警告提示
+        warning(msg: string): void {
+            ElMessageBox.alert(msg, t('message.box.title'), { type: 'warning' })
+        }
+
+        // 成功提示
+        success(msg: string): void {
+            ElMessageBox.alert(msg, t('message.box.title'), { type: 'success' })
+        }
+
+        // 错误提示
+        error(msg: string): void {
+            ElMessageBox.alert(msg, t('message.box.title'), { type: 'error' })
+        }
+
+        // 确认窗体
+        confirm(msg: string) {
+            return ElMessageBox.confirm(msg, t('message.box.title'), {
+                confirmButtonText: t('common.confirmButtonText'),
+                cancelButtonText: t('common.cancelButtonText'),
+                type: 'warning',
+                closeOnClickModal: false
+            })
+        }
+        // 提交内容
+        prompt(msg: string) {
+            return ElMessageBox.prompt(msg, t('message.box.title'), {
+                confirmButtonText: t('common.confirmButtonText'),
+                cancelButtonText: t('common.cancelButtonText'),
+                type: 'warning',
+                closeOnClickModal: false
+            })
+        }
+    }
+
+    return new MessageBoxClass()
+}
