@@ -9,11 +9,11 @@
     >
         <div class="auth-field">
             <div class="field-label">手机号</div>
-            <el-form-item prop="mobile">
+            <el-form-item prop="username">
                 <el-input
                     class="login-input"
                     :placeholder="'请输入您的手机号码'"
-                    v-model="loginForm.mobile"
+                    v-model="loginForm.username"
                     clearable
                     autocomplete="off"
                 >
@@ -92,12 +92,12 @@ const loginFormRef = ref()
 const loading = ref(false)
 
 const loginForm = reactive({
-    mobile: '',
+    username: '',
     verificationCode: ''
 })
 
 const loginRules = reactive({
-    mobile: [{ required: true, trigger: 'blur', validator: rule.validatePhone }],
+    username: [{ required: true, trigger: 'blur', validator: rule.validatePhone }],
     verificationCode: [
         {
             required: true,
@@ -108,10 +108,10 @@ const loginRules = reactive({
 })
 
 const handleSendCode = async () => {
-    const valid = await loginFormRef.value.validateField('mobile').catch(() => {})
+    const valid = await loginFormRef.value.validateField('username').catch(() => {})
     if (!valid) return
 
-    const response = await sendMobileCode(loginForm.mobile)
+    const response = await sendMobileCode(loginForm.username)
     if ((response as any).data) {
         useMessage().success('验证码发送成功')
         timeCacl()
@@ -126,7 +126,7 @@ const handleLogin = async () => {
 
     try {
         loading.value = true
-        await useUserInfo().loginByMobile(loginForm)
+        await useUserInfo().login({ ...loginForm, type: LoginTypeEnum.MOBILE })
         emit('signInSuccess')
     } finally {
         loading.value = false

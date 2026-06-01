@@ -202,7 +202,7 @@ const verifySuccess = (params: any) => {
 const onSignIn = async () => {
     loading.value = true
     try {
-        await useUserInfo().login(state.ruleForm)
+        await useUserInfo().login({ ...state.ruleForm, type: LoginTypeEnum.PASSWORD })
         localStorage.setItem('loginDate', moment().format('YYYY-MM-DD HH:mm:ss'))
         emit('signInSuccess')
     } finally {

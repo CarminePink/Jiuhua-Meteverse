@@ -74,7 +74,7 @@
         </div>
         -->
 
-        <div class="divider"></div>
+        <!-- <div class="divider"></div> -->
 
         <div class="auth-field">
             <div class="field-label">新密码</div>
@@ -321,7 +321,7 @@ const timeCacl = () => {
 }
 
 .code-field {
-    margin-bottom: 10px;
+    margin-bottom: 18px;
 }
 
 .verification-row {
@@ -347,7 +347,7 @@ const timeCacl = () => {
 
 .divider {
     height: 1px;
-    margin: 4px 0 18px;
+    margin: 18px 0 0;
     background: rgba(16, 45, 73, 0.16);
 }
 

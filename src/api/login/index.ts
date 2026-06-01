@@ -25,16 +25,23 @@ export enum LoginTypeEnum {
  * @param data
  */
 export const login = (data: any) => {
+    let params = {}
     const basicAuth = 'Basic ' + window.btoa(import.meta.env.VITE_OAUTH2_PASSWORD_CLIENT)
     Session.set('basicAuth', basicAuth)
-    // 密码加密
-    const encPassword = other.encryption(data.password, import.meta.env.VITE_PWD_ENC_KEY)
-    const { username } = data
+
+    if (data.type === LoginTypeEnum.PASSWORD) {
+        // 密码加密
+        const encPassword = other.encryption(data.password, import.meta.env.VITE_PWD_ENC_KEY)
+        params = { username: data.username, password: encPassword }
+    } else if (data.type === LoginTypeEnum.MOBILE) {
+        params = { username: data.username, verificationCode: data.verificationCode }
+    }
+
     return request({
         url: '/metaverseBiz/open/register/login',
         method: 'post',
         // params: { username, randomStr, code, grant_type, scope },
-        data: { username, password: encPassword },
+        data: params,
         headers: {
             skipToken: true,
             Authorization: basicAuth,
