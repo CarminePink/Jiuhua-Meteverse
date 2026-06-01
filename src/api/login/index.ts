@@ -38,7 +38,7 @@ export const login = (data: any) => {
     }
 
     return request({
-        url: '/metaverseBiz/open/register/login',
+        url: '/metaverseBiz/meta/client/open/register/login',
         method: 'post',
         // params: { username, randomStr, code, grant_type, scope },
         data: params,
@@ -86,7 +86,7 @@ export const loginBySocial = (state: string, code: string) => {
 }
 
 export const sendMobileCode = (mobile: any, type = 0) => {
-    const url = `/metaverseBiz/open/register/sendVerificationCode?phone=${mobile}`
+    const url = `/metaverseBiz/meta/client/open/register/sendVerificationCode?phone=${mobile}`
     return request({
         url,
         method: 'get'
@@ -181,14 +181,14 @@ export const stopTokenCheck = () => {
  */
 export const getUserInfo = () => {
     return request({
-        url: '/metaverseBiz/meta/user/profile',
+        url: '/metaverseBiz/meta/client/user/profile',
         method: 'get'
     })
 }
 
 export const logout = () => {
     return request({
-        url: '/metaverseBiz/open/register/logout',
+        url: '/metaverseBiz/meta/client/open/register/logout',
         method: 'delete'
     })
 }
@@ -204,7 +204,7 @@ export const resetPassword = (data: any) => {
     }
 
     return request({
-        url: '/metaverseBiz/open/register/resetPassword',
+        url: '/metaverseBiz/meta/client/open/register/resetPassword',
         method: 'post',
         data: encryptedData
     })

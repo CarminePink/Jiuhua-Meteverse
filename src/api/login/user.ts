@@ -111,7 +111,7 @@ export const registerUser = (userInfo: object) => {
     ])
 
     return request({
-        url: '/metaverseBiz/open/register/registerUser',
+        url: '/metaverseBiz/meta/client/open/register/registerUser',
         method: 'post',
         data: encryptedUserInfo
     })
