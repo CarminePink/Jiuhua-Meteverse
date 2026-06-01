@@ -88,7 +88,8 @@ const handleResponse = (response: AxiosResponse<any>) => {
  * 添加 Axios 的响应拦截器，用于全局响应结果处理
  */
 service.interceptors.response.use(handleResponse, error => {
-    const status = Number(error.response.status) || 200
+    const status = Number(error?.response?.status) || 200
+
     if (status === 423) {
         return Promise.reject({ msg: '"演示环境，仅供预览"' })
     }
