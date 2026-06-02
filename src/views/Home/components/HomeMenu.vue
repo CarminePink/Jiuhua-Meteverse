@@ -1,12 +1,13 @@
 <template>
     <div
         class="home-menu-container"
-        :class="{ collapsed: isCollapsed }"
+        :class="[{ collapsed: isCollapsed }, `is-${clientType}`]"
         @mousemove="handleMenuInteraction"
         @click="handleMenuInteraction"
     >
         <div class="compass-shell" :class="{ collapsed: isCollapsed }">
             <div
+                ref="compassWrapperRef"
                 class="compass-wrapper"
                 :class="{ 'no-transition': disableTransition }"
                 :style="{ transform: `rotate(${rotation}deg)` }"
@@ -73,8 +74,12 @@ const missionStore = useMissionStore()
 const homeModeStore = useHomeModeStore()
 const AUTO_COLLAPSE_DELAY = 6000
 const STEP = 45 // 相邻按钮间隔45°
-const RADIUS = 202 // 罗盘半径(px)
-const CENTER = 370 // 圆心坐标(px)
+// 罗盘设计稿尺寸，动态坐标会按罗盘实际渲染尺寸等比缩放
+const DESIGN_COMPASS_SIZE = 740
+const DESIGN_RADIUS = 202 // 菜单按钮轨道半径(px)
+const DESIGN_CENTER = 370 // 菜单按钮圆心坐标(px)
+const POSTCSS_ROOT_VALUE = 192 // vite 中 postcss-pxtorem 配置的 rootValue
+const MOBILE_USER_AGENT_REGEXP = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 
 const menuList = [
     {
@@ -106,7 +111,49 @@ const activeIndex = computed(() => homeModeStore.currentModeIndex)
 const isCollapsed = ref(false)
 const rotation = ref(0) // 罗盘旋转角度
 const disableTransition = ref(false)
+const compassWrapperRef = ref<HTMLElement | null>(null)
+const clientType = ref<'web' | 'mobile'>(getClientType()) // 当前设备类型，用于区分 web 端和移动端
+const initialMenuScale = getFallbackMenuScale() // 组件挂载前按 rem 根字号估算初始缩放比例
+// 菜单按钮动态定位参数，实际值会跟随罗盘渲染尺寸变化
+const menuMetrics = reactive({
+    radius: DESIGN_RADIUS * initialMenuScale,
+    center: DESIGN_CENTER * initialMenuScale
+})
 let autoCollapseTimer: ReturnType<typeof window.setTimeout> | null = null
+let resizeObserver: ResizeObserver | null = null
+
+// 获取当前设备类型：优先使用全局端类型，未初始化时使用 UA 兜底判断
+function getClientType(): 'web' | 'mobile' {
+    if (window.dasUEClientType) {
+        return window.dasUEClientType
+    }
+
+    return MOBILE_USER_AGENT_REGEXP.test(navigator.userAgent) ? 'mobile' : 'web'
+}
+
+// 根据当前 html 根字号计算兜底缩放比例，用于 ref 未挂载前的初始坐标
+function getFallbackMenuScale() {
+    const rootFontSize = Number.parseFloat(
+        document.documentElement.style.fontSize ||
+            getComputedStyle(document.documentElement).fontSize ||
+            `${POSTCSS_ROOT_VALUE}`
+    )
+
+    return (rootFontSize || POSTCSS_ROOT_VALUE) / POSTCSS_ROOT_VALUE
+}
+
+// 同步菜单坐标参数，确保动态 left/top 与 postcss-pxtorem 后的罗盘尺寸一致
+function syncMenuMetrics() {
+    clientType.value = getClientType()
+
+    // offsetWidth 获取的是 rem 适配后的真实像素宽度，避免内联 px 坐标绕过 pxtorem
+    const renderedCompassSize =
+        compassWrapperRef.value?.offsetWidth || DESIGN_COMPASS_SIZE * getFallbackMenuScale()
+    const scale = renderedCompassSize / DESIGN_COMPASS_SIZE
+
+    menuMetrics.radius = DESIGN_RADIUS * scale
+    menuMetrics.center = DESIGN_CENTER * scale
+}
 
 function clearAutoCollapseTimer() {
     if (autoCollapseTimer) {
@@ -156,8 +203,8 @@ function getBtnStyle(index: number) {
     const angle = btnAngles[index]
     const rad = (angle * Math.PI) / 180
     return {
-        left: `${CENTER + RADIUS * Math.cos(rad)}px`,
-        top: `${CENTER + RADIUS * Math.sin(rad)}px`
+        left: `${menuMetrics.center + menuMetrics.radius * Math.cos(rad)}px`,
+        top: `${menuMetrics.center + menuMetrics.radius * Math.sin(rad)}px`
     }
 }
 
@@ -220,10 +267,20 @@ function relocateOverflowBtns() {
 }
 
 onMounted(() => {
+    syncMenuMetrics()
+
+    if (compassWrapperRef.value && typeof ResizeObserver !== 'undefined') {
+        resizeObserver = new ResizeObserver(syncMenuMetrics)
+        resizeObserver.observe(compassWrapperRef.value)
+    }
+
+    window.addEventListener('resize', syncMenuMetrics)
     scheduleAutoCollapse()
 })
 
 onBeforeUnmount(() => {
+    window.removeEventListener('resize', syncMenuMetrics)
+    resizeObserver?.disconnect()
     clearAutoCollapseTimer()
 })
 </script>
