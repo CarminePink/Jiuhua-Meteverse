@@ -317,36 +317,4 @@ watch(visible, val => {
         color: #f0c060;
     }
 }
-
-@media (max-width: 768px) {
-    .standings-container {
-        width: calc(100% - 28px);
-        max-height: calc(100vh - 28px);
-        padding: 20px 14px 18px;
-    }
-
-    .standings-title {
-        font-size: 28px;
-    }
-
-    .standings-table {
-        .table-header {
-            font-size: 18px;
-        }
-
-        .table-row {
-            height: 48px;
-        }
-
-        .user-cell,
-        .score-cell {
-            font-size: 20px;
-        }
-
-        .rank-icon {
-            width: 32px;
-            height: 32px;
-        }
-    }
-}
 </style>

@@ -237,39 +237,4 @@ watch(visible, value => {
     line-height: 1.5;
     text-align: center;
 }
-
-@media (max-width: 768px) {
-    .my-bag-container {
-        width: calc(100vw - 24px);
-        padding: 48px 18px 24px;
-    }
-
-    .my-bag-title {
-        margin-bottom: 24px;
-        font-size: 28px;
-    }
-
-    .bag-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px;
-    }
-
-    .bag-card-item {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 190 / 275;
-    }
-
-    .placeholder-mark {
-        font-size: 56px;
-    }
-
-    .placeholder-scene {
-        font-size: 22px;
-    }
-
-    .placeholder-tip {
-        font-size: 14px;
-    }
-}
 </style>

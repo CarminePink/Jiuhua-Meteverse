@@ -340,19 +340,4 @@ watch(visible, isVisible => isVisible && initSkinList())
         cursor: not-allowed;
     }
 }
-
-@media (max-width: 768px) {
-    .points-redemption-container {
-        width: calc(100% - 28px);
-        padding: 20px 14px 18px;
-    }
-
-    .points-redemption-title {
-        font-size: 28px;
-    }
-
-    .prize-points {
-        font-size: 10px;
-    }
-}
 </style>

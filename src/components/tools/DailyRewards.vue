@@ -235,23 +235,4 @@ watch(visible, val => {
         }
     }
 }
-
-@media (max-width: 768px) {
-    .daily-rewards-container {
-        width: calc(100% - 28px);
-        padding: 20px 14px 18px;
-    }
-
-    .daily-rewards-title {
-        font-size: 28px;
-    }
-
-    .reward-task {
-        font-size: 20px;
-    }
-
-    .reward-points {
-        font-size: 18px;
-    }
-}
 </style>

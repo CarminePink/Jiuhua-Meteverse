@@ -122,7 +122,9 @@ onMounted(() => {
     gap: 16px;
     margin: 0 15px 48px 0;
 
-    .pointer {
+    .system-tool-btn {
+        width: 44px;
+        height: 44px;
         cursor: pointer;
     }
 

@@ -57,7 +57,6 @@ const setTimeLabel = value => {
             <div class="item_label">时间设置</div>
             <el-slider
                 v-model="form1.timeOfDay"
-                style="margin-left: -8px; margin-top: -10px"
                 :format-tooltip="value => setTimeLabel(value)"
                 :marks="{ 0: '0', 100: '24' }"
             ></el-slider>
@@ -66,7 +65,6 @@ const setTimeLabel = value => {
             <div class="item_label">太阳角度</div>
             <el-slider
                 v-model="form1.sunAngle"
-                style="margin-left: -8px; margin-top: -10px"
                 :format-tooltip="value => parseFloat((value * 3.6).toFixed(1))"
                 :marks="{ 0: '0', 100: '360' }"
             ></el-slider>
@@ -75,7 +73,6 @@ const setTimeLabel = value => {
             <div class="item_label">太阳强度</div>
             <el-slider
                 v-model="form1.sunPower"
-                style="margin-left: -8px; margin-top: -10px"
                 :format-tooltip="value => parseFloat((4 + value * 0.06).toFixed(1))"
                 :marks="{ 0: '4', 100: '10' }"
             ></el-slider>
@@ -134,6 +131,7 @@ const setTimeLabel = value => {
         .el-slider {
             width: 55%;
             margin-top: -10px;
+            margin-left: -8px;
         }
     }
 
