@@ -137,6 +137,17 @@ onMounted(() => {
         gap: 11px;
         background: url('@/assets/images/tool/info_bg.png') no-repeat center;
 
+        .user-avatar {
+            width: 24px;
+            height: 24px;
+        }
+
+        .sign-out-btn,
+        .quit-btn {
+            width: 20px;
+            height: 20px;
+        }
+
         .user-avatar,
         .sign-out-btn,
         .quit-btn,
