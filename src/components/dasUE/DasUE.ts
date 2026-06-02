@@ -1,4 +1,5 @@
 import Viewer from '@/components/dasUE/Viewer'
+import EmbedViewer from '@/components/dasUE/EmbedViewer'
 import DasScene from '@/components/dasUE/scene/DasScene'
 import DasCamera from '@/components/dasUE/scene/DasCamera'
 import DasCompass from '@/components/dasUE/scene/DasCompass'
@@ -35,6 +36,10 @@ import DasGizmosOperateTool from '@/components/dasUE/tool/DasGizmosOperateTool'
 import DasUELayerMarkerManager from './DasUELayerManager'
 
 const signalServerUrl = window.webConfig.signalServerUrl
+const mobileUserAgentRegExp = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+
+window.dasUEClientType = mobileUserAgentRegExp.test(navigator.userAgent) ? 'mobile' : 'web'
+
 export default class DasUE {
     public viewer
     public isViewerReady = false // Viewer initialized flag
@@ -74,16 +79,22 @@ export default class DasUE {
     public dasUELayerMarkerManager: DasUELayerMarkerManager
 
     constructor(domId: string) {
-        this.viewer = new Viewer({
-            onInitialize: () => {
-                this.isViewerReady = true
-            },
-            useUrlParams: false,
-            hideDefaultUI: true,
-            signalServer: signalServerUrl
-        })
+        if (window.dasUEClientType === 'web') {
+            this.viewer = new Viewer({
+                onInitialize: () => {
+                    this.isViewerReady = true
+                },
+                useUrlParams: false,
+                hideDefaultUI: true,
+                signalServer: signalServerUrl
+            })
+        } else {
+            this.viewer = new EmbedViewer()
+            this.isViewerReady = true
+        }
+
         const targetDom = document.getElementById(domId)
-        if (targetDom && !window.webConfig.isElectron) {
+        if (window.dasUEClientType === 'web' && targetDom && !window.webConfig.isElectron) {
             targetDom.appendChild(this.viewer.rootElement)
         }
         // scene

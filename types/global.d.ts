@@ -11,6 +11,7 @@ declare global {
             screenWidth: number
             isElectron: boolean
         }
+        dasUEClientType: 'web' | 'mobile'
         // 其他可能需要的全局属性
         gInitListener?: boolean
         nextLoading: boolean
