@@ -174,14 +174,4 @@ onBeforeUnmount(() => {
     object-fit: cover;
     background: #020812;
 }
-
-@media (max-width: 768px) {
-    .video-modal {
-        gap: 12px;
-    }
-
-    .modal-title {
-        font-size: 22px;
-    }
-}
 </style>

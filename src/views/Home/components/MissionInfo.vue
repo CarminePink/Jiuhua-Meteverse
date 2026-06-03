@@ -144,32 +144,4 @@ const handleGuide = () => {
     line-height: 1.9;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
 }
-
-@media (max-width: 900px) {
-    .mission-panel {
-        width: calc(100% - 32px);
-        min-height: auto;
-        padding: 24px 20px;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 24px;
-    }
-
-    .mission-actions {
-        justify-content: flex-end;
-    }
-}
-
-@media (max-width: 640px) {
-    .mission-actions {
-        gap: 12px;
-    }
-
-    .action-btn {
-        width: 128px;
-        height: 48px;
-        font-size: 15px;
-        letter-spacing: 1px;
-    }
-}
 </style>

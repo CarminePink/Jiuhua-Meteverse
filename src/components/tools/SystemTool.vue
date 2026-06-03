@@ -135,7 +135,7 @@ onMounted(() => {
         padding: 12px 14px;
         align-items: center;
         gap: 11px;
-        background: url('@/assets/images/tool/info_bg.png') no-repeat center;
+        background: url('@/assets/images/tool/info_bg.png') no-repeat center center / cover;
 
         .user-avatar {
             width: 24px;

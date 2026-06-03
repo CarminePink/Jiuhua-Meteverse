@@ -118,31 +118,4 @@ watch(
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
     font-family: 'Source Han Serif CN', serif;
 }
-
-@media (max-width: 768px) {
-    .collect-info-panel {
-        right: 16px;
-        bottom: 24px;
-        gap: 14px;
-        width: min(320px, calc(100vw - 24px));
-    }
-
-    .reward-item {
-        gap: 12px;
-    }
-
-    .reward-icon {
-        width: 64px;
-        height: 64px;
-    }
-
-    .reward-text-bg {
-        height: 34px;
-        padding: 0 20px;
-    }
-
-    .reward-text {
-        font-size: 15px;
-    }
-}
 </style>
