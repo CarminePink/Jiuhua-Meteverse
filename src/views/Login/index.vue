@@ -381,6 +381,25 @@ onBeforeRouteLeave(() => {
     padding-top: 36px;
 }
 
+.login-box.is-register {
+    height: 803px;
+    overflow-y: auto;
+    justify-content: flex-start;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 0;
+    }
+}
+
 .login-close {
     position: absolute;
     top: 18px;
@@ -420,31 +439,5 @@ onBeforeRouteLeave(() => {
 
 .login-form {
     margin-top: 26px;
-}
-
-@media (max-width: 640px) {
-    .login-shell {
-        padding: 20px 12px;
-    }
-
-    .login-box,
-    .login-box.is-register,
-    .login-box.is-reset,
-    .login-box.is-mobile {
-        width: 100%;
-        padding: 34px 22px 26px;
-        border-radius: 28px;
-    }
-
-    .login-title {
-        font-size: 22px;
-    }
-
-    .login-close {
-        top: 14px;
-        right: 14px;
-        width: 34px;
-        height: 34px;
-    }
 }
 </style>

@@ -219,26 +219,9 @@
         font-size: 2.4rem;
         margin: 8px 0;
     }
-
-    .img img {
-        width: 360px;
-    }
-
-    .avatar {
-        width: 280px;
-        height: 80px;
-    }
 }
 
 @media screen and (max-width: 968px) {
-    .wave {
-        display: none;
-    }
-
-    .img {
-        display: none;
-    }
-
     .login-container {
         grid-template-columns: 1fr;
     }
