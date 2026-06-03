@@ -340,7 +340,8 @@ onMounted(() => {
 }
 
 :deep(.el-form-item__error) {
-    padding-top: 8px;
+    padding-top: 6px;
+    font-size: 12px;
 }
 
 :deep(.el-input) {
@@ -373,20 +374,5 @@ onMounted(() => {
     width: 18px;
     height: 18px;
     opacity: 0.72;
-}
-
-@media (max-width: 640px) {
-    .auth-field {
-        margin-bottom: 16px;
-    }
-
-    .captcha-image {
-        width: 104px;
-        height: 54px;
-    }
-
-    :deep(.el-input__wrapper) {
-        min-height: 54px;
-    }
 }
 </style>

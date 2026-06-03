@@ -326,7 +326,7 @@ const timeCacl = () => {
 
 .verification-row {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 12px;
 }
 
@@ -343,6 +343,7 @@ const timeCacl = () => {
     background: linear-gradient(180deg, #21609c 0%, #0c4a85 100%);
     color: #fff;
     box-shadow: none;
+    font-size: 14px;
 }
 
 .divider {
@@ -403,7 +404,8 @@ const timeCacl = () => {
 }
 
 :deep(.el-form-item__error) {
-    padding-top: 8px;
+    padding-top: 6px;
+    font-size: 12px;
 }
 
 :deep(.el-input) {
@@ -431,22 +433,5 @@ const timeCacl = () => {
     width: 18px;
     height: 18px;
     opacity: 0.72;
-}
-
-@media (max-width: 640px) {
-    .auth-field {
-        margin-bottom: 16px;
-    }
-
-    .send-code-button {
-        width: 108px;
-        height: 54px;
-        border-radius: 16px;
-        font-size: 14px;
-    }
-
-    :deep(.el-input__wrapper) {
-        min-height: 54px;
-    }
 }
 </style>
