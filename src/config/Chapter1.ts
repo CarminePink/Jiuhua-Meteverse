@@ -158,7 +158,7 @@ export const chapter1IntroThree = [
         id: 1,
         text: '金地藏于99岁跏趺而逝后，九华山被辟为世人敬仰的地藏道场，化城寺由此尊为开山祖寺，统摄全山寺庙，并形成了以化城寺为中心的向心式格局。',
         audio: `/audio/chapter1/plotInfo/chapter1_intro_three_1.mp3`,
-        duration: 15
+        duration: 16
     },
     {
         id: 2,

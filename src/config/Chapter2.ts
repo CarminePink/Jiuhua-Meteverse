@@ -44,7 +44,7 @@ export const chapter2TreasureIntro = [
         id: 1,
         text: '恭喜寻得‘谛听’！谛听原身是一条白犬，随唐代新罗僧人金乔觉（后被尊为地藏菩萨）涉海西发，乘风破浪，径往大唐，求法修道。最终历经艰辛，来到九华山，成了他卓锡修行的理想之地。金地藏在九华山修行期间，白犬昼夜相随，攻读佛经，言传身教，亲率弟子开渠引水，垦荒种田。金乔觉圆寂后，白犬也随之傍息，后人将其尊为地藏菩萨的护法神兽，被视为吉祥之物。',
         audio: `/audio/chapter2/treasure/chapter2_treasure_1.mp3`,
-        duration: 37
+        duration: 43
     }
 ]
 
